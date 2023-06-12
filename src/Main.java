@@ -2,22 +2,22 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        task1();
+//        task1();
         task2();
         task3();
         task4();
     }
-
-    public static void task1 () {
-        System.out.println("\nTask 1");
-        Scanner scanner = new Scanner(System.in);
-        int N = scanner.nextInt();
-        int i = 0;
-        while (countDigits(recursiveFunction(i)) != N) {
-            i++;
-        }
-        System.out.println(recursiveFunction(i));
-    }
+//
+//    public static void task1 () {
+//        System.out.println("\nTask 1");
+//        Scanner scanner = new Scanner(System.in);
+//        int N = scanner.nextInt();
+//        int i = 0;
+//        while (countDigits(recursiveFunction(i)) != N) {
+//            i++;
+//        }
+//        System.out.println(recursiveFunction(i));
+//    }
 
     public static int recursiveFunction(int n) {
         if (n == 0 || n == 1 || n == 2) {
@@ -44,15 +44,15 @@ public class Main {
 //        String A = scanner.next();
 //        int k = scanner.nextInt();
 
-        String A = "1F";
+        String A = "FFF12";
         int n = 16;
-        int k = 12;
+        int k = 20;
         int temp = 10;
         int sum = 0;
 
         char[] array = new char[36];
-        System.out.println((int) '9');
-        System.out.println((int) 'A');
+//        System.out.println((int) '9');
+//        System.out.println((int) 'A');
 
         for (int i = 0; i <= 9; i++) {
             array[i] = (char) ('0' + i);
@@ -69,8 +69,19 @@ public class Main {
             }
         }
 
-
         System.out.println(sum);
+        StringBuilder a = new StringBuilder(); //используется только для конкатенации
+        while (sum >= k) {
+            int b = sum%k;
+            a.append(array[b]);
+            sum /= k;
+            System.out.println(sum + " " + b);
+            if (sum < k) {
+                a.append(array[sum]);
+            }
+        }
+        a.reverse();
+        System.out.println(a);
     }
 
     public static void task3 () {
