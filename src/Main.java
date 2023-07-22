@@ -1,5 +1,6 @@
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Scanner;
 import java.util.Set;
 
 public class Main {
@@ -77,59 +78,54 @@ public class Main {
 
     public static void task3 () {
         System.out.println("\nTask 3");
-        Integer[][] sudoku = {
-                {6, 4, 2, 1, 8, 3, 5, 9, 7},
-                {3, 1, 9, 5, 2, 7, 6, 8, 4},
-                {5, 8, 7, 9, 4, 6, 3, 2, 1},
-                {8, 9, 4, 2, 6, 5, 7, 1, 3},
-                {7, 3, 6, 8, 1, 9, 2, 4, 5},
-                {2, 5, 1, 7, 3, 4, 9, 6, 8},
-                {4, 6, 5, 3, 9, 1, 8, 7, 2},
-                {1, 7, 8, 6, 5, 2, 4, 3, 9},
-                {9, 2, 3, 4, 7, 8, 1, 5, 6}
-        };
+        Scanner scanner = new Scanner(System.in);
+        Integer[][] sudoku = new Integer[9][9];
+        for (int i = 0; i < sudoku.length; i++) {
+            for (int j = 0; j < sudoku[0].length; j++) {
+                sudoku[i][j] = scanner.nextInt();
+            }
+        }
+//        Integer[][] sudoku = {
+//                {6, 4, 2, 1, 8, 3, 5, 9, 7},
+//                {3, 1, 9, 5, 2, 7, 6, 8, 4},
+//                {5, 8, 7, 9, 4, 6, 3, 2, 1},
+//                {8, 9, 4, 2, 6, 5, 7, 1, 3},
+//                {7, 3, 6, 8, 1, 9, 2, 4, 5},
+//                {2, 5, 1, 7, 3, 4, 9, 6, 8},
+//                {4, 6, 5, 3, 9, 1, 8, 7, 2},
+//                {1, 7, 8, 6, 5, 2, 4, 3, 9},
+//                {9, 2, 3, 4, 7, 8, 1, 5, 6}
+//        };
 
-        Integer[] array = {1, 2, 3, 4, 5};
-        Integer[][] array2 = {
-                {6, 4, 2},
-                {6, 1, 9},
-                {5, 8, 7}
-    };
         boolean sudokuCorrect = checkSudoku(sudoku);
-//        if (sudokuCorrect) {
-//            System.out.println("Yes");
-//        } else {
-//            System.out.println("No");
-//        }
-
-        System.out.println(ColumnsAreDistinct(array2));
-        if (ColumnsAreDistinct(array2)) {
+        if (sudokuCorrect) {
             System.out.println("Yes");
         } else {
             System.out.println("No");
         }
-
     }
-    public static boolean areDistinct(Integer[] arr)
-    {
-        Set<Integer> s = new HashSet<>(Arrays.asList(arr));
 
-        return (s.size() == arr.length);
+    public static boolean SquaresAreDistinct(Integer[][] arr) {
+        for (int row = 0; row < arr.length; row += 3) {
+            for (int col = 0; col < arr[0].length; col += 3) {
+                Set<Integer> s = new HashSet<>();
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        s.add(arr[row + i][col + j]);
+                    }
+                }
+                if (s.size() != arr.length) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
     public static boolean RowsAreDistinct(Integer[][] arr)
     {
-        boolean[] array = new boolean[arr.length];
         for (int i = 0; i < arr.length; i++) {
             Set<Integer> s = new HashSet<>(Arrays.asList(arr[i]));
-            if ((s.size() == arr.length)) {
-                array[i] = true;
-            } else {
-                array[i] = false;
-            }
-        }
-
-        for (int i = 0; i < array.length; i++) {
-            if (!array[i]) {
+            if ((s.size() != arr.length)) {
                 return false;
             }
         }
@@ -137,25 +133,19 @@ public class Main {
     }
     public static boolean ColumnsAreDistinct(Integer[][] arr)
     {
-        boolean[] array = new boolean[arr.length];
-            for (int j = 0; j < arr[0].length; j++) {
-                Set<Integer> s = new HashSet<>(Arrays.asList(arr[j]));
-                if ((s.size() == arr.length)) {
-                    array[j] = true;
-                } else {
-                    array[j] = false;
-                }
+        for (int j = 0; j < arr[0].length; j++) {
+            Set<Integer> s = new HashSet<>();
+            for (int i = 0; i < arr.length; i++) {
+                s.add(arr[i][j]);
             }
-
-        for (int i = 0; i < array.length; i++) {
-            if (!array[i]) {
+            if ((s.size() != arr.length)) {
                 return false;
             }
         }
         return true;
     }
     private static boolean checkSudoku(Integer[][] sudoku) {
-        return RowsAreDistinct(sudoku);
+        return RowsAreDistinct(sudoku) && SquaresAreDistinct(sudoku) && ColumnsAreDistinct(sudoku);
     }
 
     public static void task4 () {
